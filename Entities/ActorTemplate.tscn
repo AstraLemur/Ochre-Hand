@@ -1,0 +1,126 @@
+[gd_scene load_steps=12 format=3 uid="uid://brr35teyy5fkv"]
+
+[ext_resource type="Script" path="res://Scripts/Actor.gd" id="1_0o5r0"]
+[ext_resource type="Texture2D" uid="uid://crck0r0e513fh" path="res://Sprites/Characters/Greenhood.png" id="2_neivm"]
+
+[sub_resource type="Curve2D" id="Curve2D_yhxqs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhvc1"]
+atlas = ExtResource("2_neivm")
+region = Rect2(0, 0, 14, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63e0c"]
+atlas = ExtResource("2_neivm")
+region = Rect2(16, 0, 14, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8hwtx"]
+atlas = ExtResource("2_neivm")
+region = Rect2(32, 0, 14, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_px5jb"]
+atlas = ExtResource("2_neivm")
+region = Rect2(48, 0, 14, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2yrf"]
+atlas = ExtResource("2_neivm")
+region = Rect2(80, 0, 14, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wl4c4"]
+atlas = ExtResource("2_neivm")
+region = Rect2(64, 0, 14, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_55rrs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhvc1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63e0c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8hwtx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_px5jb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2yrf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wl4c4")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_px5jb")
+}],
+"loop": true,
+"name": &"Walk N",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8hwtx")
+}],
+"loop": true,
+"name": &"Walk NE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2yrf")
+}],
+"loop": true,
+"name": &"Walk NW",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhvc1")
+}],
+"loop": true,
+"name": &"Walk S",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63e0c")
+}],
+"loop": true,
+"name": &"Walk SE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wl4c4")
+}],
+"loop": true,
+"name": &"Walk SW",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_38sf8"]
+
+[node name="Path2D" type="Path2D"]
+curve = SubResource("Curve2D_yhxqs")
+script = ExtResource("1_0o5r0")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+rotates = false
+cubic_interp = false
+loop = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PathFollow2D"]
+sprite_frames = SubResource("SpriteFrames_55rrs")
+animation = &"Idle"
+offset = Vector2(0, -10)
+
+[node name="Area2D" type="Area2D" parent="PathFollow2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Area2D"]
+scale = Vector2(1.65, 1.65)
+shape = SubResource("CircleShape2D_38sf8")
