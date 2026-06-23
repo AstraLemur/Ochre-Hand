@@ -36,7 +36,7 @@ func _ready():
 	#At some point I'll need to find a way to add Actors from outside. For now I'm just calling these two directly.
 	Actors.append($Actor)
 	#Actors.append($Pyraptor)
-	Actors[0].map_location = Vector2i(5, 9)
+	Actors[0].map_location = Vector2i(5, 5)
 	Actors[0].position = Navigator.get_point_position(grid_points[Actors[0].map_location])
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -49,10 +49,13 @@ func _input(event):
 
 	if Input.is_action_just_pressed("mouse_click") and game_busy == false:
 		
-		print(BattleMap.get_cell_tile_data(0, BattleMap.local_to_map(get_local_mouse_position()), false))
-		if BattleMap.get_cell_tile_data(0, BattleMap.local_to_map(get_local_mouse_position()), false) != null:
+		print(BattleMap.get_cell_tile_data(BattleMap.local_to_map(get_local_mouse_position())))
+		if BattleMap.get_cell_tile_data(BattleMap.local_to_map(get_local_mouse_position())) != null:
 			walk_actor(Actors[0], BattleMap.local_to_map(get_local_mouse_position()))
 			#instant_walk_actor(Actors[0], BattleMap.local_to_map(get_local_mouse_position()))
+	if Input.is_action_just_pressed("N Key"):
+		check_tile_walkable(Actors[0], BattleMap.local_to_map(get_local_mouse_position()))
+		print("Hello N!")
 
 
 
@@ -62,7 +65,7 @@ func _input(event):
 func navigator_setup():
 	#cell_index is only used to give the AStar2D points an ID number.
 	var cell_index = 0
-	for cell in BattleMap.get_used_cells(0):
+	for cell in BattleMap.get_used_cells():
 		Navigator.add_point(cell_index, BattleMap.map_to_local(cell), 1.0)
 		grid_points[cell] = cell_index
 		cell_index += 1
@@ -71,7 +74,7 @@ func navigator_setup():
 	for point in Navigator.get_point_ids():
 		var neighbors = []
 		for surrounding in BattleMap.get_surrounding_cells(grid_points.find_key(point)):
-			if BattleMap.get_cell_tile_data(0, surrounding, false) != null:
+			if BattleMap.get_cell_tile_data(surrounding) != null:
 				neighbors.append(surrounding)
 			else:
 				continue
@@ -80,12 +83,14 @@ func navigator_setup():
 
 #Remember that Path2D points are relative to their node's original position, not global space. The path array might be handy later on, I dunno
 func walk_actor(actor: Actor, destination: Vector2i):
+	
 	if actor.map_location == destination:
 		pass
 	else:
-		game_busy = true
+		#game_busy = true #What is happening in the game when this variable is used?
 		#var path = []
 		var length_in_tiles = 0
+		#if Navigator.are_points_connected(grid_points[actor.map_location], grid_points[destination], false):
 		for step in Navigator.get_id_path(grid_points[actor.map_location], grid_points[destination]):
 			actor.curve.add_point(Navigator.get_point_position(step) - actor.position)
 			#path.append(step)
@@ -98,7 +103,7 @@ func walk_actor(actor: Actor, destination: Vector2i):
 		actor.PathFollow.progress_ratio = 0.0
 		actor.curve.clear_points()
 		actor.position = Navigator.get_point_position(grid_points[actor.map_location])
-		game_busy = false
+		#game_busy = false
 	
 #Probably won't use this method much except as reference, or maybe debugging
 func instant_walk_actor(actor: Actor, destination: Vector2i):
@@ -111,6 +116,12 @@ func instant_walk_actor(actor: Actor, destination: Vector2i):
 		actor.position = Navigator.get_point_position(grid_points[actor.map_location])
 		print("Greenhood walked to " + str(actor.map_location))
 
+func check_tile_walkable(actor: Actor, destination: Vector2i) -> bool:
+	#print(Navigator.get_id_path(grid_points[actor.map_location], grid_points[destination]))
+	if Navigator.get_id_path(grid_points[actor.map_location], grid_points[destination]) != null:
+		return true
+	else:
+		return false
 
 func _draw():
 	for point in Navigator.get_point_ids():
@@ -133,5 +144,3 @@ func print_debugs():
 		#for point in grid_points:
 			#print("The AStar2D point's ID at tile " + str(point) + " is " + str(grid_points.get(point)))
 	pass
-
-

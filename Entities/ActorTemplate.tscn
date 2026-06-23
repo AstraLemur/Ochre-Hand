@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://brr35teyy5fkv"]
+[gd_scene format=3 uid="uid://brr35teyy5fkv"]
 
-[ext_resource type="Script" path="res://Scripts/Actor.gd" id="1_0o5r0"]
+[ext_resource type="Script" uid="uid://cumxsj2guslj5" path="res://Scripts/Actor.gd" id="1_0o5r0"]
 [ext_resource type="Texture2D" uid="uid://crck0r0e513fh" path="res://Sprites/Characters/Greenhood.png" id="2_neivm"]
 
 [sub_resource type="Curve2D" id="Curve2D_yhxqs"]
@@ -50,7 +50,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wl4c4")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle",
 "speed": 1.0
 }, {
@@ -58,7 +58,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_px5jb")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk N",
 "speed": 5.0
 }, {
@@ -66,7 +66,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8hwtx")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk NE",
 "speed": 5.0
 }, {
@@ -74,7 +74,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_b2yrf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk NW",
 "speed": 5.0
 }, {
@@ -82,7 +82,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bhvc1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk S",
 "speed": 5.0
 }, {
@@ -90,7 +90,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_63e0c")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk SE",
 "speed": 5.0
 }, {
@@ -98,29 +98,29 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wl4c4")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk SW",
 "speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_38sf8"]
 
-[node name="Path2D" type="Path2D"]
+[node name="Path2D" type="Path2D" unique_id=182780748]
 curve = SubResource("Curve2D_yhxqs")
 script = ExtResource("1_0o5r0")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="."]
+[node name="PathFollow2D" type="PathFollow2D" parent="." unique_id=28806758]
 rotates = false
 cubic_interp = false
 loop = false
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PathFollow2D"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PathFollow2D" unique_id=1233937329]
 sprite_frames = SubResource("SpriteFrames_55rrs")
 animation = &"Idle"
 offset = Vector2(0, -10)
 
-[node name="Area2D" type="Area2D" parent="PathFollow2D"]
+[node name="Area2D" type="Area2D" parent="PathFollow2D" unique_id=188490087]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Area2D" unique_id=1450905490]
 scale = Vector2(1.65, 1.65)
 shape = SubResource("CircleShape2D_38sf8")
